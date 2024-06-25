@@ -94,6 +94,8 @@ The `users` table includes:
 - `preferences`, which specifies the user's activity preferences as `TEXT`. This field can store a comma-separated list of preferences.
 - `created_at`, which specifies when the user registered. The default value for the `created_at` attribute is the current timestamp, as denoted by `DEFAULT (CURRENT_TIMESTAMP)` statement.
 
+All columns in the table are required and hence should have the `NOT NULL` constraint applied.
+
 #### Trips
 
 The `trips` table includes:
@@ -159,16 +161,22 @@ The `budget` table includes:
 - `trip_id`, which is the ID of the trip as an `INTEGER`. This column thus has the `FOREIGN KEY` constraint applied, referencing the id column in the trips table to ensure data integrity.
 - `estimated_cost`, which specifies the estimated cost of the trip as a `DECIMAL(10, 2)`.
 
+All columns in the table are required and hence should have the `NOT NULL` constraint applied.
+
 ## Optimizations
 
-In this section you should answer the following questions:
+<!-- In this section you should answer the following questions:
 
 - Which optimizations (e.g., indexes, views) did you create? Why?
-  - Strive to have at least one index and one view
+  - Strive to have at least one index and one view -->
+
+Indexes will be created on `user_id`, `city_id`, and `activity_id` columns to optimize query performance for frequent operations like fetching user-specific trips, activities in a city, etc.
 
 ## Limitations
 
-In this section you should answer the following questions:
+<!-- In this section you should answer the following questions:
 
 - What are the limitations of your design?
-- What might your database not be able to represent very well?
+- What might your database not be able to represent very well? -->
+
+The current schema assumes only single-user trip planning. Supporting group trip planning would require additional tables and relationships to manage multiple users per trip and shared activities.
