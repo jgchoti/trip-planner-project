@@ -89,6 +89,7 @@ The `users` table includes:
 - `id`, which specifies the unique ID for the user as an `INTEGER`. This column thus has the `PRIMARY KEY` constraint applied.
 - `first_name`, which specifies the user's first name as `VARCHAR(255)`
 - `last_name`, which specifies the user's last name as `VARCHAR(255)`.
+- `username`, which specifies the user's username. VARCHAR(64) is used and a UNIQUE constraint ensures no two users have the same username.
 - `email`, which specifies the user's email address. `VARCHAR(255)` is used and a `UNIQUE` constraint ensures no two users have the same email.
 - `country_of_residence`, which specifies the user's country of residence as `INTEGER`. This column thus has the `FOREIGN KEY` constraint applied, referencing the id column in the `countries` table to ensure data integrity.
 - `preferences`, which specifies the user's activity preferences as `TEXT`. This field can store a comma-separated list of preferences.
@@ -139,6 +140,7 @@ The `activities` table includes:
 - `description`, which provides a description of the activity as `TEXT`
 - `type`, which specifies the type of activity (sightseeing, dining, adventure, etc.) as `VARCHAR(255)`
 - `cost`, which specifies the cost of the activity as a `DECIMAL(10, 2)`
+- `duration`, which specifies the duration of the activity in hours as an `INTEGER`.
 
 All columns in the table are required and hence should have the `NOT NULL` constraint applied.
 
@@ -147,9 +149,11 @@ All columns in the table are required and hence should have the `NOT NULL` const
 The `trip_itineraries` table includes:
 
 - `id`, which specifies the unique ID for the trip itinerary entry as an `INTEGER`. This column thus has the PRIMARY KEY constraint applied.
-- `trip_id`, which is the ID of the trip as an `INTEGER`. This column thus has the `FOREIGN KEY` constraint applied, referencing the id column in the `trips` table to ensure data integrity.
+- `trip_id`, which is the ID of the trip as an `INTEGER`. This column thus has the `FOREIGN KEY` constraint applied, referencing the id column in the `trips` table to ensure data integrity. `ON DELETE CASCADE` ensures that if a trip is deleted, all related trip itineraries are also deleted.
 - `activity_id`, which is the ID of the activity as an `INTEGER`. This column thus has the `FOREIGN KEY` constraint applied, referencing the id column in the `activities` table to ensure data integrity.
 - `planned_date`, which specifies the date the activity is planned as `DATE`.
+- `start_date`, which specifies the start date of the trip as `DATE`.
+- `end_date`, which specifies the end date of the trip as `DATE`.
 
 All columns in the table are required and hence should have the `NOT NULL` constraint applied. The `planned_date`column has an additional constraint to check if it falls within the trip's `start_date` and `end_date`.
 
@@ -170,7 +174,12 @@ All columns in the table are required and hence should have the `NOT NULL` const
 - Which optimizations (e.g., indexes, views) did you create? Why?
   - Strive to have at least one index and one view -->
 
-Indexes will be created on `user_id`, `city_id`, and `activity_id` columns to optimize query performance for frequent operations like fetching user-specific trips, activities in a city, etc.
+- Indexes will be created on `username`, `city name`, `activity name`, and `trip start/end dates` columns to optimize query performance for frequent operations like fetching user-specific trips, activities in a city and sort trips within specific date ranges.
+
+- Views will be created:
+
+  - `trip_summary` view to fetch summarized information about trips
+  - `user_international_trips` viw to display trips where the user's country of residence does not match the country where the activities are planned (indicating an international trip).
 
 ## Limitations
 
