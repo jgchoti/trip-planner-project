@@ -21,7 +21,7 @@ Included in the Scope of the Database:
 
 - Cities: Information about various cities, including attractions, languages, etc.
 - Activities: Different activities available in each city, categorized by type (sightseeing, dining, adventure, etc.).
-- Users: Profiles of users, storing preferences (activity types, budget), past trips
+- Users: Profiles of users, storing preferences (activity types)
 - Trip Itineraries: specifying activities planned, dates, and budget estimates.
 - Budget: Estimated costs associated with each trip.
 
